@@ -14,6 +14,7 @@ import { Panel, SectionTitle, Chip, useToast, FavBtn, Modal } from "@/components
 import { posterUrl } from "@/lib/poster";
 import { sfx } from "@/components/Shell";
 import { toEmbed, ytSearch, soundcloud, aparatSearch } from "@/lib/links";
+import { GnomeSpot } from "@/components/GnomeHunt";
 
 const hueOf = (t: TrackDef) => (t.root * 9 + t.bpm) % 360;
 
@@ -122,6 +123,7 @@ function MusicInner() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={2} hue={30} />
       <audio ref={audioElRef} className="hidden" onEnded={() => { if (repeat === "all") { const us = users; if (us.length) playUser(us[(us.findIndex(u => "user:" + u.id === current) + 1) % us.length]); } }} />
       <SectionTitle kicker="SEASON OF SOUND" title="🎵 مرکزِ موسیقی"
         sub={`${faNum(TRACKS.length)} بازسازیِ سینتی‌سایزریِ آهنگ‌های گرانش فالز — تم اصلی، سویینگِ بیل، راکِ سوس، دیسکوی میبل و لالاییِ گیدئون. بدونِ فایل، بدونِ کپی‌رایت؛ ساختهٔ مرورگرِ شما.`} />

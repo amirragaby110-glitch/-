@@ -34,11 +34,12 @@ export function ProceduralImg({ item, className = "", alt }: { item: GalleryItem
   return <img loading="lazy" src={src} onError={() => setErr(true)} alt={alt ?? item.fa} className={`h-full w-full object-cover ${className}`} />;
 }
 
-export function FlipCard({ front, back, className = "" }: { front: ReactNode; back: ReactNode; className?: string }) {
+export function FlipCard({ front, back, className = "", onFlip }: { front: ReactNode; back: ReactNode; className?: string; onFlip?: (opened: boolean) => void }) {
   const [f, setF] = useState(false);
+  const tog = () => { onFlip?.(!f); setF(v => !v); };
   return (
-    <div className={`[perspective:1200px] ${className}`} onClick={() => setF(v => !v)} role="button" tabIndex={0}
-      onKeyDown={e => e.key === "Enter" && setF(v => !v)}>
+    <div className={`[perspective:1200px] ${className}`} onClick={tog} role="button" tabIndex={0}
+      onKeyDown={e => e.key === "Enter" && tog()}>
       <div className={`flip3d relative h-full min-h-56 w-full ${f ? "flipped" : ""}`}>
         <div className="flipface absolute inset-0">{front}</div>
         <div className="flipface flipback absolute inset-0">{back}</div>
@@ -59,8 +60,8 @@ export function Tilt({ children, max = 10, className = "" }: { children: ReactNo
     </div>
   );
 }
-export function Chip({ on, children, onClick, color, title }: { on?: boolean; children: ReactNode; onClick?: () => void; color?: string; title?: string }) {
-  return <button title={title} onClick={onClick} className={`chip ${on ? "chip-on" : ""}`} style={on && color ? { borderColor: color, color } : undefined}>{children}</button>;
+export function Chip({ on, children, onClick, color, title, className = "" }: { on?: boolean; children: ReactNode; onClick?: () => void; color?: string; title?: string; className?: string }) {
+  return <button title={title} onClick={onClick} className={`chip ${on ? "chip-on" : ""} ${className}`} style={on && color ? { borderColor: color, color } : undefined}>{children}</button>;
 }
 export function Marquee({ items }: { items: string[] }) {
   const s = items.join(" ✦ ");
@@ -149,4 +150,10 @@ export function useToast() {
     </div>
   ) : null;
   return { show, node };
+}
+/** فقط روی کلاینت (پس از Hydration) true می‌شود — برای widgetهای مبتنی بر localStorage */
+export function useHydrated() {
+  const [m, setM] = useState(false);
+  useEffect(() => setM(true), []);
+  return m;
 }

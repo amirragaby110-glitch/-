@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import BackgroundHint from "@/components/HomeBits";
-import { Panel, Reveal, SectionTitle, Counter, Marquee, Tilt } from "@/components/ui";
+import { Panel, Reveal, SectionTitle, Counter, Marquee, Tilt, useHydrated } from "@/components/ui";
 import { useSettings } from "@/lib/store";
 import { HORROR_COUNT } from "@/data/horror";
 import { FUN_COUNT } from "@/data/fun";
@@ -11,6 +11,10 @@ import { EPISODES } from "@/data/episodes";
 import { GALLERY } from "@/data/gallery";
 import { TRACKS } from "@/data/tracks";
 import { CHARACTERS } from "@/data/characters";
+import { GnomeSpot } from "@/components/GnomeHunt";
+import { useProgress, levelInfo } from "@/lib/progress";
+import { faNum } from "@/lib/utils";
+import { ACHIEVEMENTS } from "@/data/achievements";
 
 const FEATURES = [
   { href: "/music", icon: "🎵", t: "پخش موزیک ابشار جاذبه", d: `پلیر کامل با ${TRACKS.length} آهنگِ بازسازی‌شده (تم اصلی، بیل، سوس، میبل…)، ویژوالایزر زنده، موج صوتی، دانلود WAV، شافل و تکرار، و اتصال به یوتیوب/سوندکلاد/آپارات.` },
@@ -24,11 +28,18 @@ const FEATURES = [
   { href: "/voice", icon: "🗣️", t: "آزمایشگاه صدا", d: "هر متنی را با صدای دیپر، میبل، استن، بیل، سوس، وندی… بشنوید؛ تنظیم پیچ/سرعت، لیپ‌سینک زنده و کتابخانۀ کلیپ‌ها." },
   { href: "/submit", icon: "✍️", t: "ثبت اطلاعات جدید", d: "فکت، تئوری، فن‌فیک، تصویر و لینکِ ویدیوی خودتان را ثبت کنید — با آپلود و فشرده‌سازی عکس، ذخیره در پایگاه‌دادهٔ محلی و خروجی JSON." },
   { href: "/quiz", icon: "🧠", t: "آزمون گرانش فالز", d: "۱۶ سؤالِ طبقه‌بندی‌شده از «توریست» تا «ژورنال‌خوانِ سطح سه» با زمان، پاسخ‌توضیحی و اشتراک نتیجۀ آزمون." },
-  { href: "/settings", icon: "⚙️", t: "تنظیمات و PWA", d: "روز/شب، چگالیِ پس‌زمینه، حرکتِ کم، صدای رابط، نصب به‌عنوان اپ و مدیریتِ کامل داده‌ها." },
+  { href: "/settings", icon: "⚙️", t: "تنظیمات و PWA", d: "روز/شب، چگالیِ پس‌زمینه، حرکتِ کم، صدای رابط، میکسرِ صداهایِ شب، نصب به‌عنوان اپ و مدیریتِ کامل داده‌ها." },
+  { href: "/cipher", icon: "🗝", t: "کارگاهِ رمز و شکارِ طومار", d: "کارگاهِ سزار/اتبش/A1Z/ویژنر + شکّندۀ خودکار + «شکارِ طومار»: چهار رمزِ واقعی پنهان‌شده در صفحاتِ سایت — آخریش دروازۀ ۶۱۸ است." },
+  { href: "/games", icon: "🕹", t: "تالارِ بازی", d: "حافظهٔ جنگل (۱۶ کارت) و گنوم‌بزنِ ۳۰ ثانیه — با رکورد، XP و دستاورد؛ بیل هم گاهی از سوراخِ سوم بیرون می‌زند." },
+  { href: "/profile", icon: "🏅", t: "پروفایلِ بازیکن", d: "۲۵ دستاورد، ۱۰ رتبه، شمارشگرها و سطحِ XP — بازیکن‌باش: گنوم‌ها را بشمار، طومارها را بشکن، رکوردت را صادر کن." },
 ];
 
 export default function Home() {
   const { theme, toggleTheme, horrorMode, set } = useSettings();
+  const prog = useProgress();
+  const lv = levelInfo(prog.xp);
+  const achN = Object.keys(prog.earned).length;
+  const hydrated = useHydrated();
   const todayFact = useMemo(() => {
     const d = new Date(); const seed = d.getFullYear() * 372 + (d.getMonth() + 1) * 31 + d.getDate();
     return { fun: FUN_COUNT, n: seed % FUN_COUNT };
@@ -36,6 +47,8 @@ export default function Home() {
   const arcs = EPISODES.filter(e => e.arc).slice(0, 6);
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={0} hue={25} />
+      <GnomeSpot i={1} hue={190} />
       {/* هیرو */}
       <section className="relative py-10 sm:py-16">
         <BackgroundHint />
@@ -90,9 +103,35 @@ export default function Home() {
 
       <Marquee items={["EYEBROWS", "F-331", "تو رؤیای من خوش آمدی", "3313", "نیمه‌شبِ ابدی", "CIPHER HUNT", "تابستان تمام نمی‌شود", "B-613", "WILL YOU LET ME IN?", "۱۹۸۲"]} />
 
+      {/* نوارِ بازیکن */}
+      <section className="-mt-2" style={hydrated ? undefined : { display: "none" }}>
+        <a href="/profile">
+          <Panel hover className="flex flex-wrap items-center gap-x-5 gap-y-2 p-4">
+            <div className="flex items-center gap-3">
+              <svg viewBox="0 0 36 36" className="h-12 w-12 -rotate-90">
+                <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="3.5" />
+                <circle cx="18" cy="18" r="15" fill="none" stroke="#e0b64f" strokeWidth="3.5" strokeLinecap="round" strokeDasharray={`${lv.pct * 94.2} 999`} />
+              </svg>
+              <div className="text-right">
+                <div className="title-crep text-xl text-gold">سطحِ {faNum(lv.lvl)} · {lv.rank}</div>
+                <div className="text-[0.66rem] opacity-60">{prog.xp ? `${faNum(lv.toNext)} XP تا سطحِ بعد` : "همین حالا بازی را شروع کن — هر تعامل یعنی XP!"}</div>
+              </div>
+            </div>
+            <div className="mr-auto flex flex-wrap items-center gap-2 text-[0.68rem] font-black">
+              <span className="chip !cursor-default !py-1">⚡ {faNum(prog.xp)} XP</span>
+              <span className="chip !cursor-default !py-1">🏅 {faNum(achN)}/{faNum(ACHIEVEMENTS.length)}</span>
+              <span className="chip !cursor-default !py-1">🍄 {faNum(prog.gnomes.length)}/{faNum(16)}</span>
+              <span className="chip !cursor-default !py-1">📜 {faNum(prog.scrolls.length)}/{faNum(4)}</span>
+              <span className="chip !cursor-default !py-1">🎧 {faNum(prog.tracks.length)}/{faNum(18)}</span>
+              <span className="btn btn-gold !px-3 !py-1 !text-[0.66rem]">پروفایلِ بازیکن ←</span>
+            </div>
+          </Panel>
+        </a>
+      </section>
+
       {/* فیچرها */}
       <section className="py-14">
-        <SectionTitle kicker="دسترسی سریع" title="دوازده دروازه به یک شهر" sub="هر کارت یک بخشِ کاملِ اپ است — از پلیرِ موزیک تا موتورِ هوش مصنوعیِ RAG." />
+        <SectionTitle kicker="دسترسی سریع" title="پانزده دروازه به یک شهر" sub="هر کارت یک بخشِ کاملِ اپ است — از پلیرِ موزیک تا موتورِ هوش مصنوعیِ RAG." />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
             <Reveal key={f.href} delay={(i % 3) * 0.06}>

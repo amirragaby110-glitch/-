@@ -10,6 +10,9 @@ import { useSettings } from "@/lib/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { ScaryEye } from "./ui";
 import MiniPlayer from "./MiniPlayer";
+import { XPFloater } from "./XPFloater";
+import { AmbientDock } from "./AmbientUI";
+import WeirdEgg from "./WeirdEgg";
 
 let scareCtx: AudioContext | null = null;
 const WHISPERS = [
@@ -89,6 +92,9 @@ export default function Root({ children }: { children: React.ReactNode }) {
       <CommandPalette open={palette} onClose={() => setPalette(false)} onOpen={() => setPalette(true)} />
       <PwaRegister />
       <MiniPlayer />
+      <XPFloater />
+      <AmbientDock />
+      <WeirdEgg />
     </>
   );
 }

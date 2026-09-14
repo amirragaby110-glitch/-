@@ -2,6 +2,7 @@
 "use client";
 import type { TrackDef } from "@/data/types";
 import { renderTrack, peaks } from "./synth";
+import { markTrackPlayed } from "./progress";
 
 type Listener = () => void;
 
@@ -55,6 +56,7 @@ class NexusPlayer {
     this.currentId = def.id; this.duration = buf.duration; this.offset = 0;
     this.playBufferAt(buf, 0);
     this.playing = true; this.emit();
+    try { markTrackPlayed(def.id, def.title); } catch { }
   }
   playBufferAt(buf: AudioBuffer, at: number) {
     const ctx = this.ensure();

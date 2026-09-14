@@ -4,9 +4,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSettings } from "@/lib/store";
+import { useProgress } from "@/lib/progress";
 import { bgFx } from "./Background";
 import { useInstallPrompt } from "./Pwa";
 import { ScaryEye } from "./ui";
+import { LevelChip } from "./XPFloater";
 
 export const NAV = [
   { href: "/", label: "خانه", icon: "🏠" },
@@ -19,7 +21,10 @@ export const NAV = [
   { href: "/cast", label: "سازندگان", icon: "🎙️" },
   { href: "/ai", label: "هوش مصنوعی", icon: "🤖" },
   { href: "/voice", label: "آزمایشگاه صدا", icon: "🗣️" },
+  { href: "/cipher", label: "رمزنگاری", icon: "🗝" },
   { href: "/quiz", label: "آزمون", icon: "🧠" },
+  { href: "/games", label: "تالار بازی", icon: "🕹" },
+  { href: "/profile", label: "پروفایل", icon: "🏅" },
   { href: "/submit", label: "ثبت اطلاعات", icon: "✍️" },
   { href: "/settings", label: "تنظیمات", icon: "⚙️" },
 ];
@@ -47,6 +52,7 @@ export default function Shell({ children, onOpenPalette }: { children: React.Rea
   const [menu, setMenu] = useState(false);
   const { canInstall, installed, promptInstall } = useInstallPrompt();
   useEffect(() => setMenu(false), [path]);
+  useEffect(() => { useProgress.getState().visitPage(path); }, [path]);
   useEffect(() => {
     if (!autoNight) return;
     const h = new Date().getHours();
@@ -76,6 +82,7 @@ export default function Shell({ children, onOpenPalette }: { children: React.Rea
             ))}
           </div>
           <div className="mr-auto flex items-center gap-1.5 xl:mr-0">
+            <LevelChip />
             <button onClick={() => { sfx("open"); onOpenPalette(); }} className="btn btn-ghost !px-3" title="جستجوی سراسری (Ctrl+K)">
               <span>🔍</span><span className="hidden text-[0.68rem] opacity-60 sm:inline">Ctrl K</span>
             </button>

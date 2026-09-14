@@ -131,3 +131,19 @@ input[type="range"] { accent-color: #e0b64f; }
 .prose-chat p { margin: 0.35rem 0; }
 .prose-chat code { background: #9d5cff22; padding: 0.1rem 0.35rem; border-radius: 0.4rem; font-size: 0.85em; }
 .prose-chat li { margin: 0.18rem 0; }
+
+/* ── 🎩 حالتِ ویردمگددون (تخم‌مرغِ ۶۱۸) ── */
+@keyframes weird-shift {
+  0% { filter: none; }
+  20% { filter: hue-rotate(70deg) saturate(1.55) contrast(1.06); }
+  45% { filter: hue-rotate(-95deg) saturate(1.8) brightness(0.96); }
+  70% { filter: hue-rotate(160deg) contrast(1.15) brightness(1.06); }
+  100% { filter: none; }
+}
+html.weird body { animation: weird-shift 2.2s ease-in-out infinite; }
+html.weird .glass { border-color: rgba(157, 92, 255, 0.45); }
+
+/* ── 🕹 بازی‌ها ── */
+@keyframes gnome-pop { from { transform: translateY(34%) scale(0.55); opacity: 0; } to { transform: none; opacity: 1; } }
+.gnome-pop { animation: gnome-pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.4) both; }
+.card-fadein { animation: vt-fade 0.45s ease both; }

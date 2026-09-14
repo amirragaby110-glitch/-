@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Panel, SectionTitle, Chip, useToast } from "@/components/ui";
 import { speak, stopSpeak, supported, onSpeak, loadClips, saveClips, VOICE_PRESETS, type Clip, type SpeakState } from "@/lib/tts";
+import { bumpCounter } from "@/lib/progress";
+import { GnomeSpot } from "@/components/GnomeHunt";
 import { TRACKS } from "@/data/tracks";
 import { player } from "@/lib/player";
 import { copyText, download, faNum, share } from "@/lib/utils";
@@ -52,7 +54,7 @@ export default function VoicePage() {
   };
   const saveClip = () => {
     const c: Clip = { id: "c" + Date.now(), text, preset: preset.id, pitch, rate, createdAt: Date.now() };
-    const n = [c, ...clips].slice(0, 40); setClips(n); saveClips(n);
+    const n = [c, ...clips].slice(0, 40); setClips(n); saveClips(n); bumpCounter("clips", 1, "🗣 کلیپِ تازه ذخیره شد", 4);
     toast.show("کلیپ در کتابخانۀ محلی ذخیره شد ✓");
   };
 
@@ -60,6 +62,7 @@ export default function VoicePage() {
   const pct = st && st.total ? Math.round((st.char / st.total) * 100) : 0;
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={6} hue={280} />
       <SectionTitle kicker="THE VOICE LAB — B-613 ACOUSTICS DIVISION" title="🗣 آزمایشگاهِ صدایِ شخصیت‌ها"
         sub="متنِ دلخواه (فارسی یا انگلیسی) را بنویسید، شخصیت را انتخاب کنید و با تنظیم پیچ/سرعت/بلندی، «لیپ‌سینک» زنده را روی صورتش تماشا کنید. همه‌چیز رایگان، درونِ مرورگر." />
 

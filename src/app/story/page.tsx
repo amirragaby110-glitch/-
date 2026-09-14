@@ -7,6 +7,8 @@ import { EPISODES } from "@/data/episodes";
 import { CHARACTERS, charName } from "@/data/characters";
 import { TIMELINE, STORY_ARC, type StoryArcNode } from "@/data/timeline";
 import { BOOKS, VOICE_CAST } from "@/data/cast";
+import { GnomeSpot } from "@/components/GnomeHunt";
+import { CipherScroll } from "@/components/CipherScroll";
 import { Panel, SectionTitle, Chip, Reveal, useToast, ProceduralImg } from "@/components/ui";
 import { faDate, faNum, share } from "@/lib/utils";
 import { speak, stopSpeak, VOICE_PRESETS, supported } from "@/lib/tts";
@@ -91,6 +93,8 @@ function StoryInner() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={9} />
+      <CipherScroll id="s2" t={22} side="left" />
       <SectionTitle kicker="THE SUMMER THAT NEVER ENDS" title="📖 داستان، خط زمانی و قوس‌ها"
         sub="خلاصۀ هر ۴۰ قسمت + روایتِ صوتیِ فارسی، خط زمانی تعاملی، نقشۀ درختیِ داستان و کتاب‌ها/مینی‌قسمت‌ها." />
       <div className="mb-5 flex flex-wrap gap-2">

@@ -8,6 +8,10 @@ import { HORROR_COUNT } from "@/data/horror";
 import { FUN_COUNT } from "@/data/fun";
 import { allEntries, exportAll, removeEntry, importJSON } from "@/lib/db";
 import { download, faNum } from "@/lib/utils";
+import { GnomeSpot } from "@/components/GnomeHunt";
+import { CipherScroll } from "@/components/CipherScroll";
+import { AmbientMixer } from "@/components/AmbientUI";
+import { exportProgress, importProgress } from "@/lib/progress";
 
 function Row({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) {
   return (
@@ -33,6 +37,8 @@ export default function SettingsPage() {
   useEffect(() => { allEntries().then(r => setCount(r.length)); }, []);
   return (
     <div className="mx-auto max-w-3xl px-4 sm:px-6">
+      <GnomeSpot i={15} hue={60} />
+      <CipherScroll id="s4" t={40} side="left" />
       <SectionTitle kicker="CONTROL ROOM — CABIN 1982" title="⚙️ تنظیماتِ نکسوس"
         sub="هر کلیدی که اینجا بچرخد، سراسرِ اپ را تغییر می‌دهد. تنظیمات در همین مرورگر ذخیره می‌شوند." />
       <Panel className="p-5">
@@ -86,13 +92,31 @@ export default function SettingsPage() {
         </Panel>
       </div>
 
+      <div className="mt-5"><AmbientMixer /></div>
+
       <Panel className="mt-5 p-5 text-[0.72rem] leading-7 opacity-75">
         <h3 className="mb-2 font-black text-sm">⌨️ میان‌بُرهایِ نکسوس</h3>
         <div className="grid gap-1.5 sm:grid-cols-2">
+          <div><kbd className="chip !cursor-default">۶۱۸</kbd> تایپِ این عدد… اگر جرات دارید</div>
           <div><kbd className="chip !cursor-default">Ctrl/⌘ + K</kbd> جستجویِ سراسری + ناوبری سریع</div>
           <div><kbd className="chip !cursor-default">→ / ←</kbd> گشت‌وگذار در لایت‌باکس گالری</div>
           <div><kbd className="chip !cursor-default">Enter</kbd> ارسال در چت هوش مصنوعی (Shift+Enter = خط جدید)</div>
           <div><kbd className="chip !cursor-default">Esc</kbd> بستنِ مودال‌ها</div>
+        </div>
+      </Panel>
+      <Panel className="mt-5 p-5">
+        <h3 className="mb-1 font-black text-sm">🏅 بازیکنِ مخفیِ نکسوس</h3>
+        <p className="mb-3 text-[0.7rem] leading-6 opacity-65">خروجی گرفتن از «پیشرفتِ بازیکن» (سطح، XP، دستاوردها) کارِ همین‌جاست؛ اما آرشیوِ کاملش در صفحۀ پروفایل است.</p>
+        <div className="flex flex-wrap gap-2">
+          <a href="/profile" className="btn btn-gold !text-xs">🏅 پروفایل و دستاوردها</a>
+          <a href="/cipher" className="btn btn-ghost ring-1 ring-white/10 !text-xs">🗝 شکارِ طومار</a>
+          <a href="/games" className="btn btn-ghost ring-1 ring-white/10 !text-xs">🕹 تالارِ بازی</a>
+          <button className="btn btn-ghost ring-1 ring-white/10 !text-xs" onClick={() => download(new Blob([exportProgress()], { type: "application/json" }), "gf-nexus-progress.json")}>⬇️ خروجیِ پیشرفت</button>
+          <label className="btn btn-ghost ring-1 ring-white/10 !text-xs">⬆️ بازگردانیِ پیشرفت
+            <input type="file" accept="application/json" className="hidden" onChange={async e => {
+              const f = e.target.files?.[0]; if (!f) return;
+              try { toast.show(importProgress(await f.text()) ? "✓ پیشرفت بازگردانی شد" : "فایل نامعتبر"); } catch { toast.show("فایل نامعتبر"); }
+            }} /></label>
         </div>
       </Panel>
       {toast.node}

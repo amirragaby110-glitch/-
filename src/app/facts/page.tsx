@@ -7,9 +7,11 @@ import { FUN_FACTS } from "@/data/fun";
 import { FUN_CATS, type FunCat } from "@/data/types";
 import { Panel, SectionTitle, Chip, FlipCard, FavBtn, useToast } from "@/components/ui";
 import { allEntries, type UserEntry } from "@/lib/db";
+import { GnomeSpot } from "@/components/GnomeHunt";
 import { share, faNum } from "@/lib/utils";
 import { speak, stopSpeak, VOICE_PRESETS, supported } from "@/lib/tts";
 import { sfx } from "@/components/Shell";
+import { bumpCounter } from "@/lib/progress";
 
 type Row = { id: string; x: string; c: FunCat; tags?: string[]; user?: UserEntry };
 
@@ -59,6 +61,7 @@ function FactsInner() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={8} />
       <SectionTitle kicker="F-331 PRESENTS · ۲۰۰+ DOSSIERS"
         title="فکت‌هایِ جالبِ آبشار جاذبه"
         sub={`همۀ ${faNum(FUN_FACTS.length)} فکتِ راستی‌آزمایی‌شده + ${faNum(userRows.length)} فکتِ ثبت‌شدۀ شما روی کارت‌های فلیپ. کلیک = برگردان؛ بلندخوانی = با صدای شخصیت‌ها.`} />
@@ -82,6 +85,7 @@ function FactsInner() {
             <motion.div key={r.id + sort} layout initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ delay: (i % 6) * 0.035 }}>
               <div id={`fun-${r.id.replace(/^\D+/, "")}`}>
                 <FlipCard
+                  onFlip={() => bumpCounter("flips")}
                   front={
                     <Panel className="flex h-full min-h-56 flex-col p-4" >
                       <div className="mb-2 flex items-center justify-between text-[0.62rem] font-black">

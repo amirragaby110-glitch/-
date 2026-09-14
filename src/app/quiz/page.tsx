@@ -7,6 +7,8 @@ import { Panel, SectionTitle } from "@/components/ui";
 import { faNum, share } from "@/lib/utils";
 import { sfx } from "@/components/Shell";
 import { speak } from "@/lib/tts";
+import { addXp, bestCounter, bumpCounter } from "@/lib/progress";
+import ShareCardBtn from "@/components/ShareCardBtn";
 
 const T = 28;
 function shuffle<T2>(a: T2[], seed: number) {
@@ -27,6 +29,13 @@ export default function QuizPage() {
   const [done, setDone] = useState(false);
 
   const cur = qs[i];
+  useEffect(() => {
+    if (!done) return;
+    addXp(5 + score, `آزمون کامل شد — ${faNum(score)} پاسخِ درست 🧠`);
+    bestCounter("quizBest", score);
+    bumpCounter("quizzes", 1, undefined, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
   useEffect(() => {
     if (done || picked !== null) return;
     if (t <= 0) { pick(-1); return; }
@@ -94,6 +103,7 @@ export default function QuizPage() {
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <button className="btn btn-gold" onClick={restart}>↻ دوباره</button>
                 <button className="btn btn-magic" onClick={() => share("کارنامۀ آزمون گرانش فالز", `امتیاز من ${score} از ${qs.length} — رتبه: ${grade}. امتحان کن!`, location.origin + "/quiz").then(r => r === "copied" ? null : undefined)}>📤 اشتراکِ کارنامه</button>
+                <ShareCardBtn label="🖨 کارتِ کارنامه" className="btn btn-ghost ring-1 ring-white/10" tag="کارنامۀ آزمون · GRAVITY FALLS NEXUS" title={grade} body={`امتیازِ من: ${score} از ${qs.length} — بیل قضاوت کرد: «${score >= 10 ? "بد نیست… برای یک بشر" : "عجیز! برگرد فکت‌ها را بخوان"}»`} accent="magic" />
                 <a href="/facts" className="btn btn-ghost ring-1 ring-white/10">🧩 مرور فکت‌ها</a>
               </div>
             </Panel>

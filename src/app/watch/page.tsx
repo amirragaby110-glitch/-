@@ -10,6 +10,7 @@ import { Panel, SectionTitle, Chip, useToast, Reveal } from "@/components/ui";
 import { allEntries, addEntry, removeEntry } from "@/lib/db";
 import { faNum, share } from "@/lib/utils";
 import { speak, VOICE_PRESETS } from "@/lib/tts";
+import { GnomeSpot } from "@/components/GnomeHunt";
 
 type Link = { id: number; ep: string; url: string };
 const PROG_KEY = "gf-watch-progress";
@@ -94,6 +95,7 @@ function WatchInner() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <GnomeSpot i={3} />
       <SectionTitle kicker="PUBLIC ACCESS TV — NOW PLAYING" title="📺 پخش‌خانۀ آبشار جاذبه"
         sub="لینک‌های هواداری/آپاراتیِ خودتان را برای هر قسمت ثبت کنید، ویدیوِ محلی پخش کنید یا مستقیم به منابعِ رسمی سر بزنید — پلی‌لیستِ کامل ۴۰ قسمتی + ادامۀ پخش." />
 

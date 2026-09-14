@@ -6,6 +6,8 @@ import { Panel, SectionTitle, Chip, useToast, Counter } from "@/components/ui";
 import { FUN_CATS, type FunCat } from "@/data/types";
 import { HORROR_CATS, type HorrorCat } from "@/data/types";
 import { addEntry, allEntries, removeEntry, compressImage, dominantHue, exportAll, importJSON, type UserEntry, type EntryType } from "@/lib/db";
+import { bumpCounter } from "@/lib/progress";
+import { GnomeSpot } from "@/components/GnomeHunt";
 import { download, faNum, uid } from "@/lib/utils";
 import { sfx } from "@/components/Shell";
 
@@ -57,7 +59,7 @@ export default function SubmitPage() {
       meta: JSON.stringify({ lvl, ep: type === "watchlink" ? ep : undefined, uid: uid() }),
     });
     setTitle(""); setText(""); setImg(""); setTags("");
-    refresh(); toast.show("✓ ثبت شد — فقط روی دستگاهِ شما ذخیره گردید (IndexedDB)");
+    refresh(); bumpCounter("subs", 1, "✓ رکوردِ تازه در آرشیو ✍️", 8); toast.show("✓ ثبت شد — فقط روی دستگاهِ شما ذخیره گردید (IndexedDB)");
   };
 
   const exp = async () => { const j = await exportAll(); download(new Blob([j], { type: "application/json" }), "gf-nexus-export.json"); toast.show("خروجی JSON دانلود شد"); };
@@ -67,6 +69,7 @@ export default function SubmitPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={7} />
       <SectionTitle kicker="NEW ENTRY PROTOCOL — LOCAL DATABASE" title="✍️ ثبتِ اطلاعاتِ جدید"
         sub="دانشنامۀ خودتان را بسازید: فکت، تئوری، داستان، تصویر یا لینکِ ویدیو. همه‌چیز با IndexedDB در همین مرورگر ذخیره می‌شود — امن، آفلاین، بدون سرور — و هر زمان خواستید خروجیِ JSON بگیرید تا با دیگران به اشتراک بگذارید." />
 

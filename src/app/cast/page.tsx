@@ -10,6 +10,7 @@ import { CHARACTERS } from "@/data/characters";
 import { faNum, share } from "@/lib/utils";
 import { speak, VOICE_PRESETS, supported } from "@/lib/tts";
 import { Modal } from "@/components/ui";
+import { GnomeSpot } from "@/components/GnomeHunt";
 
 const TABS = [
   ["alex", "🧠 الکس هیرش"], ["voices", "🎙️ صداپیشه‌ها"], ["studio", "🏛️ استودیو و تاریخچۀ ساخت"],
@@ -23,6 +24,7 @@ export default function CastPage() {
   const toast = useToast();
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={4} />
       <SectionTitle kicker="BEHIND THE WATERFALL" title="🎙️ آدم‌هایِ پشتِ پرده"
         sub="هر آنچه دربارهٔ خالق، صداپیشه‌ها، استودیو و تاریخچۀ پنهانِ ساخت باید بدانید — با آمارِ زنده و روایتِ صوتی." />
       <div className="mb-6 flex flex-wrap gap-2">

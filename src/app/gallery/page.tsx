@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GALLERY } from "@/data/gallery";
 import { GALLERY_CATS, type GalleryCat, type GalleryItem } from "@/data/types";
 import { Panel, SectionTitle, Chip, ProceduralImg, useToast, FavBtn } from "@/components/ui";
+import { GnomeSpot } from "@/components/GnomeHunt";
+import { CipherScroll } from "@/components/CipherScroll";
 import { galleryPoster } from "@/lib/poster";
 import { allEntries, addEntry, removeEntry, compressImage, dominantHue } from "@/lib/db";
 import { download, share, faNum } from "@/lib/utils";
@@ -110,6 +112,8 @@ export default function GalleryPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <GnomeSpot i={12} hue={210} />
+      <CipherScroll id="s3" t={34} />
       <SectionTitle kicker="ARCHIVE OF VISIONS" title="🖼️ گالریِ بزرگ آبشار"
         sub={`${faNum(list.length)} تصویر از صحنه‌ها، پوسترها، فن‌آرت‌های نکسوس و آپلودهای خودتان — با هوشِ رنگی برای «جستجوی تصویری».`}
         right={

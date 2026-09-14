@@ -7,6 +7,7 @@ import { Panel, SectionTitle, useToast } from "@/components/ui";
 import { speak, stopSpeak, VOICE_PRESETS, supported } from "@/lib/tts";
 import { copyText, faNum } from "@/lib/utils";
 import Link from "next/link";
+import { GnomeSpot } from "@/components/GnomeHunt";
 
 type Msg = { role: "user" | "assistant"; content: string };
 type Session = { id: string; title: string; messages: Msg[]; at: number };
@@ -115,6 +116,7 @@ export default function AIPage() {
 
   return (
     <div className="mx-auto flex min-h-[80vh] max-w-6xl flex-col px-4 sm:px-6">
+      <GnomeSpot i={5} hue={260} />
       <SectionTitle kicker="KNOWLEDGE ENTITY · GROQ + LOCAL RAG" title="🤖 گفتگو با «نکسوس»"
         sub="هوش مصنوعیِ این اپ روی همۀ دیتای گرانش فالز بازیابی (RAG) می‌کند؛ با Groq (Llama 3.3 70B) و ابزار search_kb — و اگر کلید نداشته باشید، موتورِ محلیِ آفلاین جواب می‌دهد." />
 

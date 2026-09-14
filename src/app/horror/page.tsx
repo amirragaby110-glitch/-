@@ -12,6 +12,11 @@ import { player } from "@/lib/player";
 import { TRACKS } from "@/data/tracks";
 import { bgFx } from "@/components/Background";
 import { sfx } from "@/components/Shell";
+import { GnomeSpot } from "@/components/GnomeHunt";
+import { CipherScroll } from "@/components/CipherScroll";
+import ShareCardBtn from "@/components/ShareCardBtn";
+import { AmbientMixer } from "@/components/AmbientUI";
+import { bumpCounter } from "@/lib/progress";
 
 const SCARY_WORDS = ["بیل", "چشم", "نفرین", "مرگ", "تسخیر", "سایه", "۱۹۸۲"];
 export default function HorrorPage() {
@@ -62,6 +67,9 @@ export default function HorrorPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <GnomeSpot i={13} />
+      <GnomeSpot i={14} hue={140} />
+      <CipherScroll id="s1" t={26} />
       <div ref={headRef} className="relative overflow-hidden py-8 text-center">
         <ScaryEye open={0.92} className="floaty mx-auto mb-3 w-24 drop-shadow-[0_0_40px_rgba(157,92,255,0.75)]" />
         <div className="text-[0.68rem] font-black tracking-[0.5em] text-blood">DO NOT READ ALONE · CLASSIFIED · FAN ARCHIVE</div>
@@ -74,7 +82,7 @@ export default function HorrorPage() {
           <button onClick={() => { set({ horrorMode: !horrorMode }); toast.show(horrorMode ? "چشم‌ها برگشتند به دیوار…" : "👁 حالتِ بیل فعال شد — در هر صفحه‌ای پچ‌پچ می‌شنوی"); }} className={`btn ${horrorMode ? "btn-danger" : "btn-magic"}`}>
             👁 حالتِ بیل: {horrorMode ? "روشن" : "خاموش"}
           </button>
-          <button onClick={() => { const f = HORROR_FACTS[(Math.random() * HORROR_FACTS.length) | 0]; setRoulette(f.id); setTimeout(() => { jumpscare(); document.getElementById(`h-${f.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }); }, 350); }} className="btn btn-gold">🎲 رولتِ وحشت</button>
+          <button onClick={() => { bumpCounter("roulettes", 1, "🎲 رولتِ وحشت چرخید", 2); const f = HORROR_FACTS[(Math.random() * HORROR_FACTS.length) | 0]; setRoulette(f.id); setTimeout(() => { jumpscare(); document.getElementById(`h-${f.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }); }, 350); }} className="btn btn-gold">🎲 رولتِ وحشت</button>
         </div>
         <div className="mt-4 flex justify-center gap-4 text-[0.68rem] font-bold opacity-60">
           <span>⚠️ میانگینِ شدت: <Counter to={Math.round(HORROR_FACTS.reduce((a, f) => a + f.lvl, 0) / HORROR_FACTS.length * 10) / 10} /> از ۵</span>
@@ -114,6 +122,7 @@ export default function HorrorPage() {
                 <div className="flex gap-1">
                   <button className="chip !text-[0.62rem]" onClick={() => { jumpscare(SCARY_WORDS[f.id % SCARY_WORDS.length]); }}>👁 بیل‌بینی</button>
                   <button className="chip !text-[0.62rem]" onClick={async () => { const r = await share("فکت ترسناک گرانش فالز", `${f.t} — ${f.x}`); toast.show(r === "shared" ? "اشتراک انجام شد" : "کپی شد"); }}>📤</button>
+                  <ShareCardBtn tag="رازِ تاریک · GRAVITY FALLS" title={f.t} body={f.x} accent="blood" label="🖨" />
                 </div>
               </div>
             </Panel>
@@ -130,6 +139,12 @@ export default function HorrorPage() {
             return <button key={id} className="btn btn-ghost ring-1 ring-white/10 !text-xs" onClick={() => { player.playDef(t); }}>▶ {t.title}</button>;
           })}
         </div>
+      </div>
+
+      <div className="mt-10">
+        <SectionTitle kicker="MIDNIGHT SOUND STUDIO" title="🌫 میکسرِ صداهایِ جنگل"
+          sub="باد، باران، هیزم و جیرجیرک — هر چهار لوپ با فیلتر و نوسان‌ساز زنده ساخته می‌شوند؛ ترکیب دلخواهت را بساز و حتی در صفحاتِ دیگر هم با خودت ببر." />
+        <AmbientMixer />
       </div>
 
       {jump && (
