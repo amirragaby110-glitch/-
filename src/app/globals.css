@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Creepster";
+  src: url("/fonts/creepster-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-night: #060d08;
+  --color-night2: #0a1610;
+  --color-day: #eef3e6;
+  --color-day2: #dde8d2;
+  --color-forest: #1c4a2c;
+  --color-forest2: #2c6a41;
+  --color-wood: #6b4a2b;
+  --color-wood2: #8a6238;
+  --color-gold: #e0b64f;
+  --color-gold2: #f4d98b;
+  --color-magic: #9d5cff;
+  --color-magic2: #c7a5ff;
+  --color-blood: #b0392e;
+  --color-pine: #9fd48a;
+  --font-sans: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+  --font-display: "Creepster", "Vazirmatn", cursive;
+}
+
+:root {
+  --bg: #eef3e6; --bg2: #e3ecd8; --ink: #14251a; --card: rgba(255, 255, 255, 0.62);
+  --card-brd: rgba(28, 74, 44, 0.16); --hair: rgba(20, 37, 26, 0.12);
+  --glass-blur: 16px;
+}
+.dark {
+  --bg: #060d08; --bg2: #0a1610; --ink: #e9f2e4; --card: rgba(12, 26, 17, 0.55);
+  --card-brd: rgba(224, 182, 79, 0.14); --hair: rgba(233, 242, 228, 0.1);
+}
+html { scroll-behavior: smooth; }
+html.dark { color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); overflow-x: clip; }
+
+::selection { background: #9d5cff66; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: linear-gradient(#2c6a41, #14371f); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+.dark ::-webkit-scrollbar-thumb { background: linear-gradient(#e0b64f55, #9d5cff44); border-radius: 8px; background-clip: padding-box; border: 2px solid transparent; }
+
+/* ── شیشه‌نئومورف ── */
+.glass { background: var(--card); backdrop-filter: blur(var(--glass-blur)) saturate(1.3); -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.3); border: 1px solid var(--card-brd); box-shadow: 0 18px 50px -22px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+.neu { box-shadow: 9px 9px 18px rgba(0, 0, 0, 0.35), -7px -7px 16px rgba(255, 255, 255, 0.05); }
+html:not(.dark) .neu { box-shadow: 9px 9px 20px rgba(38, 62, 44, 0.18), -8px -8px 18px rgba(255, 255, 255, 0.9); }
+.hairline { border-bottom: 1px solid var(--hair); }
+
+.card { border-radius: 1.4rem; background: var(--card); border: 1px solid var(--card-brd); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 999px; padding: 0.55rem 1.15rem; font-weight: 700; font-size: 0.92rem; transition: transform 0.18s ease, box-shadow 0.25s ease, background 0.25s; cursor: pointer; user-select: none; border: 1px solid var(--card-brd); }
+.btn:hover { transform: translateY(-2px) scale(1.02); }
+.btn:active { transform: translateY(0) scale(0.98); }
+.btn-gold { background: linear-gradient(135deg, #e0b64f, #b98a2e); color: #241a05; border-color: #e0b64f66; box-shadow: 0 8px 24px -8px #e0b64f88; }
+.btn-magic { background: linear-gradient(135deg, #9d5cff, #6c2fc4); color: #fff; border-color: #c7a5ff55; box-shadow: 0 8px 24px -8px #9d5cff99; }
+.btn-ghost { background: transparent; }
+.btn-danger { background: linear-gradient(135deg, #b0392e, #7c1f18); color: #fff; }
+
+.chip { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.28rem 0.72rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; border: 1px solid var(--hair); background: color-mix(in oklab, var(--card) 70%, transparent); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.chip:hover { border-color: #e0b64f88; color: #d8a93f; }
+.chip-on { background: linear-gradient(135deg, #e0b64f2e, #9d5cff22); border-color: #e0b64f99; color: inherit; }
+
+.input { width: 100%; border-radius: 1rem; padding: 0.65rem 0.95rem; background: color-mix(in oklab, var(--card) 80%, transparent); border: 1px solid var(--hair); outline: none; transition: border 0.2s, box-shadow 0.2s; color: inherit; }
+.input:focus { border-color: #9d5cff88; box-shadow: 0 0 0 4px #9d5cff22; }
+
+.title-creep { font-family: var(--font-display); letter-spacing: 0.04em; }
+.glow-gold { text-shadow: 0 0 22px rgba(224, 182, 79, 0.5), 0 0 4px rgba(224, 182, 79, 0.8); }
+.glow-magic { text-shadow: 0 0 26px rgba(157, 92, 255, 0.65); }
+.glow-red { text-shadow: 0 0 20px rgba(176, 57, 46, 0.8); }
+
+/* ── انیمیشن‌های پایه ── */
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.floaty { animation: floaty 6s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+@keyframes flicker { 0%, 100% { opacity: 1; } 92% { opacity: 1; } 93% { opacity: 0.4; } 94% { opacity: 1; } 97% { opacity: 0.6; } 98% { opacity: 1; } }
+.flicker { animation: flicker 7s infinite; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { animation: marquee 38s linear infinite; }
+html[dir="rtl"] .marquee { animation-name: marquee; transform: scaleX(-1); }
+@keyframes slowspin { to { transform: rotate(360deg); } }
+.slowspin { animation: slowspin 26s linear infinite; }
+@keyframes eyeblink { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(0.08); } }
+
+.flip3d { transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.flip3d.flipped { transform: rotateY(180deg); }
+.flipface { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flipback { transform: rotateY(180deg); }
+
+.grain::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 70; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.scanlines::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 71; background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.14) 3px 4px); opacity: 0; transition: opacity 0.6s; }
+.dark.scary .scanlines::before { opacity: 1; }
+
+/* ── حالت ترسناک ── */
+.scary { filter: contrast(1.08) saturate(0.8); }
+.scary .vignette { opacity: 1; }
+.vignette { position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity 1s; background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.55) 85%, rgba(80, 0, 0, 0.25)); }
+@keyframes scare-flash { 0% { opacity: 0; } 8% { opacity: 1; } 12% { opacity: 0.1; } 16% { opacity: 0.9; } 22% { opacity: 0; } 100% { opacity: 0; } }
+.scare-flash { animation: scare-flash 0.9s ease-out forwards; }
+
+/* ── View Transitions ── */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-fade 0.28s ease both; }
+::view-transition-new(root) { animation: vt-fade 0.4s ease 0.06s both; }
+@keyframes vt-fade { from { opacity: 0; transform: scale(1.012); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } html { scroll-behavior: auto; } }
+.rm *, .rm *::before, .rm *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+
+/* ── اسکرول‌دریون ── */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.reveal.in { opacity: 1; transform: none; }
+
+.text-shadow-none { text-shadow: none; }
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+input[type="range"] { accent-color: #e0b64f; }
+.prose-chat p { margin: 0.35rem 0; }
+.prose-chat code { background: #9d5cff22; padding: 0.1rem 0.35rem; border-radius: 0.4rem; font-size: 0.85em; }
+.prose-chat li { margin: 0.18rem 0; }
+
+/* ── 🎩 حالتِ ویردمگددون (تخم‌مرغِ ۶۱۸) ── */
+@keyframes weird-shift {
+  0% { filter: none; }
+  20% { filter: hue-rotate(70deg) saturate(1.55) contrast(1.06); }
+  45% { filter: hue-rotate(-95deg) saturate(1.8) brightness(0.96); }
+  70% { filter: hue-rotate(160deg) contrast(1.15) brightness(1.06); }
+  100% { filter: none; }
+}
+html.weird body { animation: weird-shift 2.2s ease-in-out infinite; }
+html.weird .glass { border-color: rgba(157, 92, 255, 0.45); }
+
+/* ── 🕹 بازی‌ها ── */
+@keyframes gnome-pop { from { transform: translateY(34%) scale(0.55); opacity: 0; } to { transform: none; opacity: 1; } }
+.gnome-pop { animation: gnome-pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.4) both; }
+.card-fadein { animation: vt-fade 0.45s ease both; }
